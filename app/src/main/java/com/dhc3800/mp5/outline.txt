@@ -1,0 +1,6 @@
+1. A list of scrollable locations
+2. having a search(View or dialog) at the top of my screen which allows
+users to search for a place, appending that to a local database, and then
+updating the recycler view adapter to display the newly added location
+3. By setting permissions into the manifest file and using AudioManager
+4.
