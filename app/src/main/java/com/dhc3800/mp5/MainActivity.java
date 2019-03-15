@@ -12,6 +12,7 @@ import android.media.AudioManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,6 +30,12 @@ import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingClient;
 import com.google.android.gms.location.GeofencingRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.libraries.places.api.model.Place;
@@ -42,7 +49,7 @@ import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
+import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, ActivityCompat.OnRequestPermissionsResultCallback {
@@ -55,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private AutocompleteSupportFragment autocompleteFragment;
     private ArrayList<Geofence> geofenceList;
 
+    private MapFragment mapFragment;
     private Helper helper;
 
 
@@ -75,7 +83,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         recyclerView.setAdapter(mAdapter);
         geofencingClient = LocationServices.getGeofencingClient(this);
         ((Button) findViewById(R.id.quietHours)).setText("Start Quiet Hours");
-        findViewById(R.id.addLocation).setOnClickListener(this);
         if (!Places.isInitialized()) {
             Places.initialize(getApplicationContext(), getResources().getString(R.string.apikey));
         }
@@ -97,11 +104,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(MainActivity.this, "An error occurred.", Toast.LENGTH_LONG).show();
             }
         });
-
-
-
+//
 
     }
+
+
+
+
+
 
     private void addToGeoList(ArrayList<SetLocation> locationList) {
         for (SetLocation location: locationList) {
@@ -257,9 +267,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     Utils.Silence(this);
                     ((Button) v).setText("End Quiet Hours");
+                    startActivity(new Intent(MainActivity.this, MapsWithPicker.class));
+
+
                 } else {
                     ((Button) v).setText("Start Quiet Hours");
                     removeGeoFence();
+
                 }
 
         }

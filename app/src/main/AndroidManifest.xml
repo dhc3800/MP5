@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
-
+    <uses-permission android:name="rs.fon.mapapp.permission.MAPS_RECEIVE" />
 
     <application
         android:allowBackup="true"
@@ -14,6 +14,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".MapsWithPicker"></activity>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBkYX-cWRqBW_xiqr7fKTg9-Z6HgZBEztA" />
 
         <service android:name=".GeofenceTransitionsIntentService" />
 
