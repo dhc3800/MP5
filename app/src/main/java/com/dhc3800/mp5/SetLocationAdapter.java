@@ -9,14 +9,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class SetLocationAdapter extends RecyclerView.Adapter<SetLocationAdapter.ViewHolder> {
     private ArrayList<SetLocation> locations;
+    private DecimalFormat df = new DecimalFormat("###.###");
 
     public SetLocationAdapter(ArrayList<SetLocation> locations) {
         this.locations = locations;
     }
+
+    public void setChange(ArrayList<SetLocation> locations) {
+        this.locations = new ArrayList<>();
+        this.locations.addAll(locations);
+        notifyDataSetChanged();
+    }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView add;
@@ -47,8 +56,8 @@ public class SetLocationAdapter extends RecyclerView.Adapter<SetLocationAdapter.
         final SetLocation location = locations.get(position);
         holder.add.setText(location.address);
         holder.name.setText(location.name);
-        holder.lat.setText(String.valueOf(location.Latitude));
-        holder.lon.setText(String.valueOf(location.Longitude));
+        holder.lat.setText(String.valueOf(df.format(location.Latitude)));
+        holder.lon.setText(String.valueOf(df.format(location.Longitude)));
 
         holder.view.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -61,6 +70,8 @@ public class SetLocationAdapter extends RecyclerView.Adapter<SetLocationAdapter.
                                 SetLocation s = locations.remove(position);
                                 notifyItemRemoved(position);
                                 notifyItemRangeChanged(position, locations.size());
+                                Helper helper = new Helper(v.getContext());
+                                helper.delete(helper.getLocation(s.id));
                             }
                         })
                         .setNegativeButton(android.R.string.no, null)
@@ -80,11 +91,6 @@ public class SetLocationAdapter extends RecyclerView.Adapter<SetLocationAdapter.
     }
 
 
-    public void setChange(ArrayList<SetLocation> locations) {
-        this.locations = new ArrayList<>();
-        this.locations.addAll(locations);
-        notifyDataSetChanged();
-    }
 
 
 

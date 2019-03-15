@@ -49,20 +49,6 @@ public class GeoFencing extends IntentService {
     }
 
 
-    public Geofence build(SetLocation location) {
-        return new Geofence.Builder().setRequestId(location.id)
-                .setCircularRegion(location.Latitude, location.Longitude, 100)
-                .setExpirationDuration(Geofence.NEVER_EXPIRE)
-                .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_DWELL)
-                .build();
-
-    }
-
-    public GeofencingRequest buildRequest(ArrayList<Geofence> fences) {
-        return new GeofencingRequest.Builder()
-                .setInitialTrigger(Geofence.GEOFENCE_TRANSITION_DWELL)
-                .addGeofences(fences).build();
-    }
 
 
     public void delete(Geofence fence, Context context) {
@@ -70,34 +56,6 @@ public class GeoFencing extends IntentService {
         remove.add(fence.getRequestId());
         LocationServices.getGeofencingClient(context).removeGeofences(remove);
     }
-
-    public PendingIntent getGeofencePendingIntent(Context context) {
-        Intent intent = new Intent(context, MainActivity.class);
-        return PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-    }
-
-    public void addGeofence(ArrayList<Geofence> fences, final Context context) {
-        geofencingClient = LocationServices.getGeofencingClient(context);
-
-        geofencingClient.addGeofences(buildRequest(fences), getGeofencePendingIntent(context));
-
-
-
-//                .addOnSuccessListener(context, new OnSuccessListener<Void>() {
-//                    @Override
-//                    public void onSuccess(Void aVoid) {
-//                        // add intent to show fragment here?
-//                    }
-//                })
-//                .addOnFailureListener(this, new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Utils.failedGeoFenceRetrieve(context);
-//                    }
-//                });
-
-    }
-
 
 
 
@@ -110,7 +68,6 @@ public class GeoFencing extends IntentService {
             .setExpirationDuration(-1)
             .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_DWELL)
             .build());
-
 
     }
 }

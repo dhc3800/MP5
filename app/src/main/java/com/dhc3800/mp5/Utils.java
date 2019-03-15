@@ -1,7 +1,11 @@
 package com.dhc3800.mp5;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.media.AudioManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
 
 public class Utils {
@@ -12,12 +16,12 @@ public class Utils {
     public static void Silence(Context context) {
         AUDIOMANAGER = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         ringerMode = AUDIOMANAGER.getRingerMode();
-        AUDIOMANAGER.setRingerMode(AUDIOMANAGER.RINGER_MODE_SILENT);
+        AUDIOMANAGER.setRingerMode(AUDIOMANAGER.RINGER_MODE_VIBRATE);
     }
 
     public static void Ring(Context context) {
         AUDIOMANAGER = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-        AUDIOMANAGER.setRingerMode(ringerMode);
+        AUDIOMANAGER.setRingerMode(AUDIOMANAGER.RINGER_MODE_NORMAL);
     }
 
     public static void failedLocationRetrieve(Context context) {
@@ -27,4 +31,8 @@ public class Utils {
     public static void failedGeoFenceRetrieve(Context context) {
         Toast.makeText(context, "Failed to set GeoFence", Toast.LENGTH_LONG).show();
     }
+
+
+
+
 }
